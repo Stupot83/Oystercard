@@ -3,6 +3,7 @@ require "Oystercard"
 describe Oystercard do
 
     let(:oystercard) { Oystercard.new }
+    let(:station){ double :station }
 
   it("should instantiate the Oystercard class") do
     expect(oystercard).to be_instance_of(Oystercard)
@@ -31,22 +32,28 @@ describe Oystercard do
 
   it "can touch in" do
     oystercard.top_up(1)
-    oystercard.touch_in
+    oystercard.touch_in(station)
     expect(oystercard).to be_in_journey
   end
 
   it "can touch out" do
     oystercard.top_up(1)
-    oystercard.touch_in
+    oystercard.touch_in(station)
     oystercard.touch_out
     expect(oystercard).not_to be_in_journey
   end
 
   it "Raises an error if balance is low" do
-    expect{ oystercard.touch_in }.to raise_error "Insufficient balance to touch in"
+    expect{ oystercard.touch_in(station) }.to raise_error "Insufficient balance to touch in"
   end
 
   it "can deduct from the balance when touching out" do
     expect { oystercard.touch_out }.to change{ oystercard.balance }.by(-Oystercard::MINIMUM_CHARGE) 
+  end
+
+  it 'stores the entry station' do
+    oystercard.top_up(1)
+    oystercard.touch_in(station)
+    expect(oystercard.entry_station).to eq station
   end
 end
