@@ -1,13 +1,15 @@
-require 'Oystercard'
+require 'oystercard'
+require 'station'
 
 describe Oystercard do
   let(:oystercard) { Oystercard.new }
   let(:entry_station) { double :station }
   let(:exit_station) { double :station }
   let(:journey) { { entry_station: entry_station, exit_station: exit_station } }
+  let(:station) { Station.new('Tottenham Hale', 'Zone 3') }
 
   describe 'defaults' do
-    it('should instantiate the Oystercard class') do
+    it 'should instantiate the Oystercard class' do
       expect(oystercard).to be_instance_of(Oystercard)
     end
 
@@ -137,6 +139,11 @@ describe Oystercard do
       oystercard.touch_in('Tottenham Hale')
       oystercard.touch_out('London Kings Cross')
       expect(oystercard.journeys).to eq [{ entry_station: 'Tottenham Hale', exit_station: 'London Kings Cross' }]
+    end
+
+    it 'should know which zone a station is in' do
+      expect(station.zone).to eq 'Zone 3'
+      expect(station.name).to eq 'Tottenham Hale'
     end
   end
 end
