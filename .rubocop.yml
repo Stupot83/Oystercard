@@ -1,0 +1,9 @@
+Metrics/BlockLength:
+    Exclude:
+        - 'spec/**/*'
+
+Metrics/LineLength:
+    Max: 150
+
+Style/DoubleNegation:
+    Enabled: false
