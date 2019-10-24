@@ -10,12 +10,12 @@ class Journey
     @exit_station = nil
   end
 
-  def start(station)
-    @entry_station = station
+  def start(entry_station)
+    @entry_station = entry_station
   end
 
-  def finish(station)
-    @exit_station = station
+  def finish(exit_station)
+    @exit_station = exit_station
   end
 
   def complete?
@@ -23,6 +23,12 @@ class Journey
   end
 
   def fare
-    complete? ? MINIMUM_FARE : PENALTY_FARE
+    complete? ? total_fare : PENALTY_FARE
+  end
+
+  private
+
+  def total_fare
+    (entry_station.zone - exit_station.zone).abs + 1
   end
 end
